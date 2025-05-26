@@ -5,9 +5,15 @@ $url = "https://play.pokemonshowdown.com/data/pokedex.json";
 $pokemons = json_decode(file_get_contents($url));
 
 $idAnterior = -1;
-$idInicio = 0;
+$idInicio = 1;
 $quantidade = 20;
 $contador = 0;
+$maxPokemon = 1025;
+if(!empty($_GET['idInicio'])){
+    $idInicio = $_GET['idInicio'];  
+}else{
+    $idInicio = 1;
+}
 
 
 ?>
@@ -20,7 +26,22 @@ $contador = 0;
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <div class="conteudo-header">
+                <h1>PokeGuia</h1>
+                <p>Cartas com informações sobre todos os pokemons da pokedex!</p>
+            </div>
+        </div>
+    </header>
     <main>
+        <div class="container"> 
+            <div class="ant-prox">
+                <div><a href="index.php?idInicio=<?= ($idInicio - $quantidade >1) ? $idInicio - $quantidade:1?>" class="btnPass">Anteriores</a></div>
+                <div class="contador"><?= "$idInicio - ".$idInicio - 1 + $quantidade." / $maxPokemon"?></div>
+                <div><a href="index.php?idInicio=<?= ($idInicio + $quantidade > $maxPokemon) ? $maxPokemon - $quantidade + 1 : $idInicio + $quantidade?>" class="btnPass">Proximos</a></div>
+            </div>
+        </div>
         <div class="container">
             <?php foreach ($pokemons as $poke):
             if($idAnterior == $poke->num || $poke->num < $idInicio){
@@ -46,10 +67,15 @@ $contador = 0;
                     </div>
                 </div>
             </div>
-
             <?php endforeach;$contador=0;?>
         </div>
-        
+        <div class="container"> 
+            <div class="ant-prox">
+                <div><a href="index.php?idInicio=<?= ($idInicio - $quantidade >1) ? $idInicio - $quantidade:1?>" class="btnPass">Anteriores</a></div>
+                <div class="contador"><?= "$idInicio - ".$idInicio - 1 + $quantidade." / $maxPokemon"?></div>
+                <div><a href="index.php?idInicio=<?= ($idInicio + $quantidade > $maxPokemon) ? $maxPokemon - $quantidade + 1 : $idInicio + $quantidade?>" class="btnPass">Proximos</a></div>
+            </div>
+        </div>
     </main>
 </body>
 </html>

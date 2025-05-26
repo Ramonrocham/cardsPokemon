@@ -3,15 +3,33 @@
     margin: 0px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: 600;
+
 }
 body{
-    background-color: #CCC;
+    background-color: #FDFDFD ;
 }
+
+header{
+    background-color: #3B4CCA ;
+    padding: 10px 0px;
+}
+
+.conteudo-header {
+    color: white;
+    font-size: bold;
+    text-align: center;
+    width: 100%;
+}
+.conteudo-header h1, .conteudo-header p{
+    padding: 10px 0px;
+    text-shadow: 0px 0px 2px #000000a1;
+}
+
 .container{
     max-width: 1260px;
     width: 100%;
     margin: auto;
-    background-color: #CCC;
+    
     gap: 20px;
     display: flex;
     flex-wrap: wrap;
@@ -45,7 +63,9 @@ body{
 
 .nome-pokemon{
     padding-top: 40px;
-    font-size: 20px;
+    font-size: 22px;
+
+    text-shadow: 0px 0px 2px #ffffffb0;
 }
 
 .img-pokemon img{
@@ -57,7 +77,7 @@ body{
 .tipo-pokemon-area{
     display: flex;
     margin: auto;
-    width: 200px;
+    width: 230px;
     justify-content: space-between;
     margin-top: 20px;
 }
@@ -67,4 +87,27 @@ body{
     margin: auto;
     border-radius: 15px;
     padding: 5px 10px;
+
+    text-shadow: 0px 0px 2px #ffffffb0;
+}
+.ant-prox{
+    margin-top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    margin-bottom: 40px;
+}
+
+.btnPass{
+    padding: 15px 10px;
+    border-radius: 25px;
+    background-color: #888;
+    text-decoration: none;
+    color: white;
+
+    text-shadow: 1px 0px 2px black;
+}
+.btnPass:hover{
+    opacity: 0.7;
 }
