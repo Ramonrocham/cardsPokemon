@@ -27,7 +27,20 @@ body{
 
 .area-conteudo{
     text-align: center;
-    background: radial-gradient(circle at 50% 8%, orange 49%, #fff 36%);  
+    /* background: radial-gradient(circle at 50% 8%, orange 49%, #fff 36%);   */
+}
+
+.id-pokemon{
+    text-align: end;
+
+    margin-right: 30px;
+    margin-top: 20px;
+}
+.id-pokemon span{
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 700;
 }
 
 .nome-pokemon{
@@ -44,12 +57,14 @@ body{
 .tipo-pokemon-area{
     display: flex;
     margin: auto;
-    width: 180px;
+    width: 200px;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .tipo-pokemon{
-    padding-top: 20px;
     font-size: 18px;
     margin: auto;
+    border-radius: 15px;
+    padding: 5px 10px;
 }

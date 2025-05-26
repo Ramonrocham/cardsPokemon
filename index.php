@@ -1,13 +1,15 @@
 <?php
+require 'tiposPokemon.php';
 
-$url = "https://play.pokemonshowdown.com/data/pokedex.json";
-
-    
+$url = "https://play.pokemonshowdown.com/data/pokedex.json";    
 $pokemons = json_decode(file_get_contents($url));
+
 $idAnterior = -1;
 $idInicio = 0;
 $quantidade = 20;
 $contador = 0;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,14 +34,14 @@ $contador = 0;
             $idAnterior = $poke->num;
             ?>
             
-            <div class="area-card">
-                <div class="area-conteudo">
-                    
+            <div class="area-card" style="background: radial-gradient(circle at 50% 5%, <?=$tiposPokemon[$poke->types[0]]['cor']?> 45%, #fff 36%); ">
+                <div class="area-conteudo" >
+                    <div class="id-pokemon"><span>id: <?=$poke->num?></span></div>
                     <div class="nome-pokemon"> <?= $poke->name?> </div>
                     <div class="img-pokemon"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<?=$poke->num?>.png" alt=""></div>
                     <div class="tipo-pokemon-area">
                         <?php foreach($poke->types as $tipo){
-                            echo "<div class='tipo-pokemon'>".$tipo."</div>";
+                            echo "<div class='tipo-pokemon' style= 'background-color:".$tiposPokemon[$tipo]['cor'].";'>".$tiposPokemon[$tipo]['ptbr']."</div>";
                         }?>
                     </div>
                 </div>
