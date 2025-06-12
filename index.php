@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokeGuia</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
     <header>
@@ -42,7 +42,7 @@
         showMsg.innerHTML = "Carregando cards..."
 
         async function getTipos() {
-            let tp = await fetch('tiposPokemon.php');
+            let tp = await fetch('api/tiposPokemon.php');
             let resp = await tp.json();
 
             return resp;
@@ -55,7 +55,7 @@
         carregarTipos();
         
         function carregarDados(){
-            fetch('dadosPokemons.php?idInicio='+idInicio)
+            fetch('api/dadosPokemons.php?idInicio='+idInicio)
             .then(res => res.json())
             .then(data => {
                 const containerCards = document.querySelector('#container-cards');
