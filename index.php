@@ -1,22 +1,3 @@
-<?php
-require 'tiposPokemon.php';
-
-$url = "https://play.pokemonshowdown.com/data/pokedex.json";    
-$pokemons = json_decode(file_get_contents($url));
-
-$idAnterior = -1;
-$idInicio = 1;
-$quantidade = 20;
-$contador = 0;
-$maxPokemon = 1025;
-if(!empty($_GET['idInicio'])){
-    $idInicio = $_GET['idInicio'];  
-}else{
-    $idInicio = 1;
-}
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,50 +18,81 @@ if(!empty($_GET['idInicio'])){
     <main>
         <div class="container"> 
             <div class="ant-prox">
-                <div><a href="index.php?idInicio=<?= ($idInicio - $quantidade >1) ? $idInicio - $quantidade:1?>" class="btnPass">Anteriores</a></div>
-                <div class="contador"><?= "$idInicio - ".$idInicio - 1 + $quantidade." / $maxPokemon"?></div>
-                <div><a href="index.php?idInicio=<?= ($idInicio + $quantidade > $maxPokemon) ? $maxPokemon - $quantidade + 1 : $idInicio + $quantidade?>" class="btnPass">Proximos</a></div>
+                <button class="anterior" onclick="anterior()"><<<</button>
+                <button class="proximo" onclick="proximo()">>>></button>
             </div>
+        </div>
+        <div class="container"  id="container-cards">
+            
         </div>
         <div class="container">
-            <?php foreach ($pokemons as $poke):
-            if($idAnterior == $poke->num || $poke->num < $idInicio){
-                continue;
-            }
-            if($contador == $quantidade || $poke->num<1){
-                break;
-            }
-            $contador++;
-            
-            $idAnterior = $poke->num;
-            ?>
-            
-            <div class="area-card" style="background: radial-gradient(circle at 50% 5%, <?=$tiposPokemon[$poke->types[0]]['cor']?> 45%, #fff 36%); ">
-                <div class="area-conteudo" >
-                    <div class="id-pokemon"><span>id: <?=$poke->num?></span></div>
-                    <div class="nome-pokemon"> <?= $poke->name?> </div>
-                    <div class="img-pokemon"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<?=$poke->num?>.png" alt=""></div>
-                    <div class="tipo-pokemon-area">
-                        <?php foreach($poke->types as $tipo){
-                            echo "<div class='tipo-pokemon' style= 'background-color:".$tiposPokemon[$tipo]['cor'].";'>".$tiposPokemon[$tipo]['ptbr']."</div>";
-                        }?>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach;$contador=0;?>
-        </div>
-        <div class="container"> 
+            <div class="msg"></div> 
             <div class="ant-prox">
-                <div><a href="index.php?idInicio=<?= ($idInicio - $quantidade >1) ? $idInicio - $quantidade:1?>" class="btnPass">Anteriores</a></div>
-                <div class="contador"><?= "$idInicio - ".$idInicio - 1 + $quantidade." / $maxPokemon"?></div>
-                <div><a href="index.php?idInicio=<?= ($idInicio + $quantidade > $maxPokemon) ? $maxPokemon - $quantidade + 1 : $idInicio + $quantidade?>" class="btnPass">Proximos</a></div>
+                <button class="anterior" onclick="anterior()"><<<</button>
+                <button class="proximo" onclick="proximo()">>>></button>
             </div>
         </div>
     </main>
+    <script>
+        
+        let idInicio = 1;
+        const maxPokemon = 1025;
+        let tipos = [];
+        let showMsg = document.querySelector(".msg");
+        showMsg.innerHTML = "Carregando cards..."
+
+        async function getTipos() {
+            let tp = await fetch('tiposPokemon.php');
+            let resp = await tp.json();
+
+            return resp;
+        };
+
+        async function carregarTipos() {
+            tipos = await getTipos();
+        }
+
+        carregarTipos();
+        
+        function carregarDados(){
+            fetch('dadosPokemons.php?idInicio='+idInicio)
+            .then(res => res.json())
+            .then(data => {
+                const containerCards = document.querySelector('#container-cards');
+                containerCards.innerHTML = '';
+                data.forEach(poke =>{
+                    showMsg.innerHTML = '';
+
+                    const card = document.createElement('div');
+                    card.className = 'area-card';
+                    card.style.background = `radial-gradient(circle at 50% 5%, ${tipos[poke.tipos[0]].cor} 45%, #fff 36%)`
+                    card.innerHTML = `
+                        <div class="area-conteudo">
+                        <div class="id-pokemon"><span>id: ${poke.id}</span></div>
+                        <div class="nome-pokemon"> ${poke.nome} </div>
+                        <div class="img-pokemon"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke.id}.png" alt=""></div>
+                        <div class="tipo-pokemon-area">
+                            ${poke.tipos.map(tipo => `<div class="tipo-pokemon" style= "background-color:${tipos[tipo].cor};">${tipos[tipo].ptbr}</div>`).join('')}
+                        </div>
+                        </div>
+                    `;
+                    containerCards.appendChild(card);
+                });
+            });
+        }
+        carregarDados();
+
+        function proximo(){
+            idInicio += 20;
+            if(idInicio>maxPokemon) idInicio=maxPokemon-20;
+            carregarDados();
+        }
+        function anterior(){
+            idInicio -= 20;
+            if(idInicio<1) idInicio=1;
+            carregarDados();
+        }
+    </script>
 </body>
 </html>
 
-
-<!--"https://pokeapi.co/api/v2/pokemon?limit=100&offset=749";
-     //"https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0" offset=0&limit=20
-    //https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/750.png

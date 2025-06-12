@@ -1,7 +1,8 @@
 <?php
+header('content-Type: application/json');
 
 $tiposPokemon = [
-'Normal' => ['ptbr'=> 'fogo', 'cor'=> '#A8A77A'],
+'Normal' => ['ptbr'=> 'Normal', 'cor'=> '#A8A77A'],
 'Fire' => ['ptbr'=> 'Fogo', 'cor'=> '#EE8130'],
 'Water' => ['ptbr'=> 'Água', 'cor'=> '#6390F0'],
 'Grass' => ['ptbr'=> 'Grama', 'cor'=> '#7AC74C'],
@@ -20,3 +21,5 @@ $tiposPokemon = [
 'Steel' => ['ptbr' => 'Metal', 'cor' => '#B7B7CE'],
 'Fairy' => ['ptbr' => 'Fada', 'cor' => '#D685Ad'],
 ];
+
+echo json_encode($tiposPokemon);
